@@ -1,6 +1,7 @@
 package com.example.tipjetcomoseapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
@@ -85,6 +86,17 @@ fun TopHeader(totalPerPerson: Double = 134.23) {
 @Composable
 fun MainContent() {
 
+    BillForm() { billAmt ->
+        Log.d("AMT", "$billAmt is huge")
+    }
+
+}
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+fun BillForm(modifier: Modifier = Modifier,
+onValChange: (String) -> Unit = {}) {
+
     val totalBillState = remember {
         mutableStateOf("")
     }
@@ -112,6 +124,7 @@ fun MainContent() {
                 onAction = KeyboardActions {
                     if (!validState) return@KeyboardActions
                     // TODO - onvaluechanged
+                    onValChange(totalBillState.value.trim())
                     keyboardController?.hide()
                 }
             )
